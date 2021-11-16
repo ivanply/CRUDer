@@ -1,23 +1,15 @@
-package com.ivanplyaskin.cruder.model.entity;
+package com.ivanplyaskin.cruder.model.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Serial
+    private static final long serialVersionUID = - 8917451261189344563L;
+
     private long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "surname")
     private String surname;
 
     public long getId() {
