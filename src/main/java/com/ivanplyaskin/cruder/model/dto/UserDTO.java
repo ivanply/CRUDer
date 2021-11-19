@@ -1,5 +1,6 @@
 package com.ivanplyaskin.cruder.model.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -9,6 +10,7 @@ public class UserDTO implements Serializable {
     private static final long serialVersionUID = - 8917451261189344563L;
 
     private long id;
+    @NotNull(message = "Name field must be not null.")
     private String name;
     private String surname;
 
