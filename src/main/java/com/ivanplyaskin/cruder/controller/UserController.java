@@ -1,9 +1,13 @@
 package com.ivanplyaskin.cruder.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivanplyaskin.cruder.exception.EntityNotFoundException;
 import com.ivanplyaskin.cruder.model.dto.UserDTO;
 import com.ivanplyaskin.cruder.model.entity.User;
 import com.ivanplyaskin.cruder.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,11 +28,14 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final ObjectMapper mapper;
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ObjectMapper mapper) {
         this.userService = userService;
+        this.mapper = mapper;
     }
 
     @GetMapping(
@@ -42,14 +49,17 @@ public class UserController {
             value = "/user",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers() {
-        List<User> userList = userService.getAllUsers();
-        return userList;
+        return userService.getAllUsers();
     }
 
     @PostMapping(
             value = "/user",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody UserDTO userDTO) throws JsonProcessingException {
+        if (logger.isDebugEnabled()) {
+            String prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userDTO);
+            logger.debug("Request body of incoming message: {}", prettyJson);
+        }
         userService.createUser(userDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -58,6 +68,7 @@ public class UserController {
             value = "/user",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody UserDTO userDTO) {
+        logger.debug("Request body of incoming message: {}", userDTO);
         userService.updateUser(userDTO);
     }
 

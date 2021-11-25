@@ -1,8 +1,13 @@
 package com.ivanplyaskin.cruder.exception;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class DefaultErrorResponse {
+public class DefaultErrorResponse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = - 4645277256810229160L;
 
     private String timestamp;
     private int status;

@@ -7,6 +7,6 @@ package com.ivanplyaskin.cruder.exception;
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(Long id, Class<?> entityClass) {
-        super(String.format("The %s with %s ID was not found", entityClass.getName(), id));
+        super(String.format("The %s with %s ID was not found", entityClass.getSimpleName(), id));
     }
 }
